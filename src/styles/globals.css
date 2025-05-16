@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: Verdana, sans-serif;
+    padding: 30px;
+}
+
+div {
+    font-family: Verdana;
+    border-radius: 3%;
+}
+
+span {
+    font-family: Verdana;
+    border-radius: 3%;
+}
+
+input {
+    border-radius: 3%;
+}
+
+.house-card {
+    padding: 18px;
+    margin-top: 18px;
+    box-shadow: 0px 10px 10px 0px lightgray;
+    border: 1px solid lightgray;
+}
