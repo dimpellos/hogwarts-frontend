@@ -14,21 +14,21 @@ type House = {
 };
 
 export default function Home() {
-  const [query, setQuery] = useState('');
+  const [name, setName] = useState('');
   const [houses, setHouses] = useState<House[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       setLoading(true);
-      fetchHousesByQuery(query)
+      fetchHousesByQuery(name)
         .then(setHouses)
         .catch((err) => console.error('API error:', err))
         .finally(() => setLoading(false));
     }, 300);
 
     return () => clearTimeout(delayDebounce);
-  }, [query]);
+  }, [name]);
 
   return (
     <main className="flex flex-col items-start py-10 px-4 font-[Verdana,sans-serif] max-w-3xl mx-auto">
@@ -36,8 +36,8 @@ export default function Home() {
       <input
         type="text"
         placeholder="Search houses"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         className="w-64 p-3 border border-gray-300 rounded-lg shadow-sm mb-8"
         style={{
           fontFamily: 'Verdana, sans serif',
