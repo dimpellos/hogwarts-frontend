@@ -21,12 +21,16 @@ export default function Home() {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       setLoading(true);
-      fetchHousesByQuery(name)
-        .then(setHouses)
+  
+      const fetchPromise = fetchHousesByQuery(name);
+      const delayPromise = new Promise((res) => setTimeout(res, 1000)); // Minimum spinner time
+  
+      Promise.all([fetchPromise, delayPromise])
+        .then(([fetchedHouses]) => setHouses(fetchedHouses))
         .catch((err) => console.error('API error:', err))
         .finally(() => setLoading(false));
     }, 300);
-
+  
     return () => clearTimeout(delayDebounce);
   }, [name]);
 
@@ -50,8 +54,27 @@ export default function Home() {
       {/* House Cards or Spinner */}
       <div className="flex flex-col gap-8 m-4">
         {loading ? (
-          <div className="flex justify-center items-center py-6">
-            <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '1.5rem',
+          }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              border: '4px solid transparent',
+              borderTop: '4px solid #3B82F6', // Tailwind blue-500
+              borderBottom: '4px solid #3B82F6',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+            }} />
+            <style jsx>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
           </div>
         ) : (
           houses.map((house) => (
